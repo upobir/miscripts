@@ -22,7 +22,12 @@ async function main(args: Array<string>) {
   const abi = parseAbiFile(args[2]);
   if (abi === null) return;
 
-  const signatures = abi.format(ethers.utils.FormatTypes.full) as Array<string>;
+  const format =
+    args[3] === 'minimal'
+      ? ethers.utils.FormatTypes.minimal
+      : ethers.utils.FormatTypes.full;
+
+  const signatures = abi.format(format) as Array<string>;
 
   for (const signature of signatures) {
     if (signature.startsWith('event')) {
